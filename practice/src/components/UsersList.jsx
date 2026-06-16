@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 function UsersList() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/users")
@@ -13,6 +14,10 @@ function UsersList() {
       });
   }, []);
 
+  const filteredUsers = users.filter((user) =>
+    user.name.toLowerCase().includes(search.toLowerCase()),
+  );
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -20,7 +25,16 @@ function UsersList() {
   return (
     <div style={{ padding: "20px" }}>
       <h2>Users List</h2>
-      {users.map((user) => (
+
+      <input
+        type="text"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder="Search by name..."
+        style={{ padding: "8px", marginBottom: "15px", width: "250px" }}
+      />
+
+      {filteredUsers.map((user) => (
         <div
           key={user.id}
           style={{
@@ -35,6 +49,10 @@ function UsersList() {
           <p>City: {user.address.city}</p>
         </div>
       ))}
+
+      <p>
+        Showing {filteredUsers.length} of {users.length} users
+      </p>
     </div>
   );
 }
