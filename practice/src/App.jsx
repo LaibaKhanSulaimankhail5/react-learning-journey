@@ -1,11 +1,9 @@
-import Counter from "./components/Counter";
-import ContactForm from "./components/ContactForm";
+import UsersList from "./components/UsersList";
 
 function App() {
   return (
     <div>
-      <Counter />
-      <ContactForm />
+      <UsersList />
     </div>
   );
 }
