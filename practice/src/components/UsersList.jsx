@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function UsersList() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/users")
@@ -18,9 +20,7 @@ function UsersList() {
     user.name.toLowerCase().includes(search.toLowerCase()),
   );
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
+  if (loading) return <p>Loading...</p>;
 
   return (
     <div style={{ padding: "20px" }}>
@@ -37,11 +37,13 @@ function UsersList() {
       {filteredUsers.map((user) => (
         <div
           key={user.id}
+          onClick={() => navigate(`/users/${user.id}`)}
           style={{
             border: "1px solid #ccc",
             padding: "10px",
             marginBottom: "10px",
             borderRadius: "8px",
+            cursor: "pointer",
           }}
         >
           <h3>{user.name}</h3>
